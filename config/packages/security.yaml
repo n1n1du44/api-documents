@@ -1,0 +1,25 @@
+security:
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    encoders:
+        App\Entity\User: bcrypt
+
+    providers:
+        main:
+            entity: { class: App\Entity\User, property: login }
+
+    firewalls:
+        secured_area:
+            pattern:    ^/
+            anonymous: ~
+            form_login:
+                login_path:  /connexion
+            logout:
+                path: /deconnexion
+                target: /connexion
+
+    access_control:
+        - { path: ^/api, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/administration/connexion, roles: IS_AUTHENTICATED_ANONYMOUSLY }
