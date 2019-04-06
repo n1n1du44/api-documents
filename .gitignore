@@ -4,6 +4,8 @@
 /.env.local.php
 /.env.*.local
 /public/bundles/
+/public/database/
+/public/media/
 /.idea/
 /var/
 /vendor/
