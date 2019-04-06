@@ -1,0 +1,11 @@
+{% include 'base.html.twig' %}
+
+{% block body %}
+  <h1>Validation de la configuration</h1>
+  <h3>Provider OCR</h3>
+  <ul>
+    <li>Configuration valide : {% if provider_ocr_validate_configuration %}OK{% else %}KO{% endif %}</li>
+    <li>OCR provider nom: {{ provider_ocr_name }}</li>
+    <li>OCR provider version : {{ provider_ocr_version }}</li>
+  </ul>
+{% endblock %}
