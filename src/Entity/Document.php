@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="document")
  * @ORM\Entity
  * @ApiResource(
+ *     attributes={"access_control"="is_granted('ROLE_USER')"},
  *     iri="http://schema.org/Document",
  *     normalizationContext={
  *         "groups"={"document_read"},
@@ -48,7 +49,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *         "get",
  *     },
  *     itemOperations={
- *         "get",
+ *         "get"={
+ *             "normalization_context"={"groups"={"document_read"}}
+ *         },
  *     },
  * )
  * @Vich\Uploadable
@@ -66,13 +69,15 @@ class Document
      * @var string|null
      *
      * @ApiProperty(iri="http://schema.org/contentUrl")
-     * @Groups({"media_object_read"})
+     * @Groups({"media_object_read", "document_read"})
      */
     public $contentUrl;
 
     /**
      * @var File|null
      *
+     * @ApiProperty()
+     * @Groups({"document_read"})
      * @Assert\NotNull(groups={"media_object_create"})
      * @Vich\UploadableField(mapping="media_object", fileNameProperty="filePath")
      */
@@ -81,6 +86,8 @@ class Document
     /**
      * @var string|null
      *
+     * @ApiProperty()
+     * @Groups({"document_read"})
      * @ORM\Column(nullable=true)
      */
     public $filePath;

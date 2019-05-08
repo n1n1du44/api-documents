@@ -53,7 +53,7 @@ class InitFirstUserCommand extends Command
       $encoded = $this->encoder->encodePassword($user, $plainPassword);
 
       $user->setId(1);
-      $user->setLogin("admin");
+      $user->setUsername("admin");
       $user->setPassword($encoded);
 
       $this->em->persist($user);
