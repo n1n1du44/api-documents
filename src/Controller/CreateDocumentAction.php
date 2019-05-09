@@ -32,6 +32,7 @@ final class CreateDocumentAction
   {
     $uploadedFile = $request->files->get('file');
 
+
     if (!$uploadedFile) {
       throw new BadRequestHttpException('"file" is required');
     }
