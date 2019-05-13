@@ -9,18 +9,23 @@ use App\Entity\Document;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+
 
 final class CreateDocumentAction
 {
   private $managerRegistry;
   private $validator;
   private $resourceMetadataFactory;
+  private $tokenStorage;
 
-  public function __construct(ManagerRegistry $managerRegistry, ValidatorInterface $validator, ResourceMetadataFactoryInterface $resourceMetadataFactory)
+  public function __construct(ManagerRegistry $managerRegistry, ValidatorInterface $validator, ResourceMetadataFactoryInterface $resourceMetadataFactory, TokenStorageInterface $tokenStorage)
   {
     $this->managerRegistry = $managerRegistry;
     $this->validator = $validator;
     $this->resourceMetadataFactory = $resourceMetadataFactory;
+    $this->tokenStorage = $tokenStorage;
   }
 
   /**
@@ -31,14 +36,18 @@ final class CreateDocumentAction
   public function __invoke(Request $request): Document
   {
     $uploadedFile = $request->files->get('file');
+    $token = $this->tokenStorage->getToken();
+    $user = $token->getUser();
 
 
     if (!$uploadedFile) {
       throw new BadRequestHttpException('"file" is required');
     }
 
+
     $document = new Document();
     $document->file = $uploadedFile;
+    $document->setUser($user);
 
     $this->validate($document, $request);
 

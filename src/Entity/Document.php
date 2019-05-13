@@ -11,6 +11,8 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -93,6 +95,14 @@ class Document
     public $filePath;
 
   /**
+   * @ManyToOne(targetEntity="User")
+   * @JoinColumn(name="user_id", referencedColumnName="id")
+   */
+  private $user;
+
+
+
+  /**
    * @return mixed
    */
   public function getId()
@@ -156,7 +166,21 @@ class Document
     $this->filePath = $filePath;
   }
 
+  /**
+   * @return mixed
+   */
+  public function getUser()
+  {
+    return $this->user;
+  }
 
+  /**
+   * @param mixed $user
+   */
+  public function setUser($user): void
+  {
+    $this->user = $user;
+  }
 
 
 

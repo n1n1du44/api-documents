@@ -6,3 +6,8 @@ api_platform:
             apiKey:
                 name: Authorization
                 type: header
+    collection:
+        pagination:
+            client_enabled: true
+            enabled_parameter_name: pagination # optional
+
