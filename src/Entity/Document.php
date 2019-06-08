@@ -48,12 +48,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *                 },
  *             },
  *         },
- *         "get",
+ *         "get"={
+ *             "controller"=App\Controller\GetDocumentsAction::class,
+ *          },
  *     },
  *     itemOperations={
  *         "get"={
- *             "normalization_context"={"groups"={"document_read"}}
- *         },
+ *            "controller"=App\Controller\GetDocumentAction::class,
+ *          },
  *     },
  * )
  * @Vich\Uploadable
