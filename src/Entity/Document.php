@@ -10,9 +10,11 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Doctrine\ORM\Mapping\OneToMany;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -96,93 +98,101 @@ class Document
      */
     public $filePath;
 
-  /**
-   * @ManyToOne(targetEntity="User")
-   * @JoinColumn(name="user_id", referencedColumnName="id")
-   */
-  private $user;
+    /**
+     * @ManyToOne(targetEntity="User")
+     * @JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
 
+    /**
+     * One Document has many DocumentStorage. This is the inverse side.
+     * @OneToMany(targetEntity="DocumentStorage", mappedBy="document")
+     */
+    private $documentsStorages;
 
+    public function __construct() {
+      $this->documentsStorages = new ArrayCollection();
+    }
 
-  /**
-   * @return mixed
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+      return $this->id;
+    }
 
-  /**
-   * @param mixed $id
-   */
-  public function setId($id): void
-  {
-    $this->id = $id;
-  }
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
+    {
+      $this->id = $id;
+    }
 
-  /**
-   * @return string|null
-   */
-  public function getContentUrl(): ?string
-  {
-    return $this->contentUrl;
-  }
+    /**
+     * @return string|null
+     */
+    public function getContentUrl(): ?string
+    {
+      return $this->contentUrl;
+    }
 
-  /**
-   * @param string|null $contentUrl
-   */
-  public function setContentUrl(?string $contentUrl): void
-  {
-    $this->contentUrl = $contentUrl;
-  }
+    /**
+     * @param string|null $contentUrl
+     */
+    public function setContentUrl(?string $contentUrl): void
+    {
+      $this->contentUrl = $contentUrl;
+    }
 
-  /**
-   * @return File|null
-   */
-  public function getFile(): ?File
-  {
-    return $this->file;
-  }
+    /**
+     * @return File|null
+     */
+    public function getFile(): ?File
+    {
+      return $this->file;
+    }
 
-  /**
-   * @param File|null $file
-   */
-  public function setFile(?File $file): void
-  {
-    $this->file = $file;
-  }
+    /**
+     * @param File|null $file
+     */
+    public function setFile(?File $file): void
+    {
+      $this->file = $file;
+    }
 
-  /**
-   * @return string|null
-   */
-  public function getFilePath(): ?string
-  {
-    return $this->filePath;
-  }
+    /**
+     * @return string|null
+     */
+    public function getFilePath(): ?string
+    {
+      return $this->filePath;
+    }
 
-  /**
-   * @param string|null $filePath
-   */
-  public function setFilePath(?string $filePath): void
-  {
-    $this->filePath = $filePath;
-  }
+    /**
+     * @param string|null $filePath
+     */
+    public function setFilePath(?string $filePath): void
+    {
+      $this->filePath = $filePath;
+    }
 
-  /**
-   * @return mixed
-   */
-  public function getUser()
-  {
-    return $this->user;
-  }
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+      return $this->user;
+    }
 
-  /**
-   * @param mixed $user
-   */
-  public function setUser($user): void
-  {
-    $this->user = $user;
-  }
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+      $this->user = $user;
+    }
 
 
 

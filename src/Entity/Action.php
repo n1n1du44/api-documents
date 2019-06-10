@@ -18,22 +18,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Action
 {
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+  /**
+   * @ORM\Column(name="id", type="integer")
+   * @ORM\Id
+   * @ORM\GeneratedValue(strategy="AUTO")
+   */
+  private $id;
 
-    /**
-     * @ORM\Column(name="code", type="string", length=255)
-     */
-    private $code;
+  /**
+   * @ORM\Column(name="code", type="string", length=255)
+   */
+  private $code;
 
-    /**
-     * @ORM\Column(name="label", type="string", length=255)
-     */
-    private $label;
+  /**
+   * @ORM\Column(name="label", type="string", length=255)
+   */
+  private $label;
 
   /**
    * @return mixed
