@@ -110,8 +110,16 @@ class Document
      */
     private $documentsStorages;
 
+  /**
+   * One Document has many DocumentFileFormat. This is the inverse side.
+   * @OneToMany(targetEntity="DocumentStorage", mappedBy="document")
+   * @ApiProperty()
+   */
+  private $documentsFileFormats;
+
     public function __construct() {
       $this->documentsStorages = new ArrayCollection();
+      $this->documentsFileFormats = new ArrayCollection();
     }
 
     /**
@@ -193,6 +201,40 @@ class Document
     {
       $this->user = $user;
     }
+
+  /**
+   * @return mixed
+   */
+  public function getDocumentsStorages()
+  {
+    return $this->documentsStorages;
+  }
+
+  /**
+   * @param mixed $documentsStorages
+   */
+  public function setDocumentsStorages($documentsStorages): void
+  {
+    $this->documentsStorages = $documentsStorages;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getDocumentsFileFormats()
+  {
+    return $this->documentsFileFormats;
+  }
+
+  /**
+   * @param mixed $documentsFileFormats
+   */
+  public function setDocumentsFileFormats($documentsFileFormats): void
+  {
+    $this->documentsFileFormats = $documentsFileFormats;
+  }
+
+
 
 
 

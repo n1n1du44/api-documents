@@ -32,7 +32,7 @@ final class GetDocumentAction
 
     // on récupère tous les documents de l'utilisateurs
     $em = $this->managerRegistry->getManager();
-    $document = $em->getRepository(Document::class)->findBy(array('user' => $user, 'id' => $id));
+    $document = $em->getRepository(Document::class)->findOneBy(array('user' => $user, 'id' => $id));
     if ($document instanceof Document) {
       return $document;
     } else {

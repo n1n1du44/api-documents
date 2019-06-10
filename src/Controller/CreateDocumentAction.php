@@ -47,11 +47,9 @@ final class CreateDocumentAction
     $token = $this->tokenStorage->getToken();
     $user = $token->getUser();
 
-
     if (!$uploadedFile) {
       throw new BadRequestHttpException('"file" is required');
     }
-
     if (!($user instanceof User)) {
       throw new BadRequestHttpException('"user" not found');
     }
@@ -59,7 +57,6 @@ final class CreateDocumentAction
     $document = new Document();
     $document->file = $uploadedFile;
     $document->setUser($user);
-
 
     $this->validate($document, $request);
 
@@ -104,7 +101,7 @@ final class CreateDocumentAction
 
     $filesystem = new Filesystem();
     if ($filesystem->exists($originalFilename)) {
-      $dir = $user->getId() . "/" . $document->getId();
+      $dir = $user->getId() . "/" . $document->getId() . "/" . $originalFileInfo->getExtension();
       $now = new \DateTime();
       $filename = md5($now->format('YmdHis') . $originalFileInfo->getFilename()) . "." . $originalFileInfo->getExtension();
       while ($filesystem->exists($filename)) {
@@ -113,24 +110,25 @@ final class CreateDocumentAction
       }
 
       $filepath = $dir . "/" . $filename;
-
       $filesystem->copy($originalFilename, $filepath);
-      $document->setFilePath($filepath);
-      $document->setContentUrl("/" . $filepath);
+      if ($filesystem->exists($filepath)) {
+        $document->setFilePath($filepath);
+        $document->setContentUrl("/" . $filepath);
 
+        $fileFormat = $em->getRepository(FileFormat::class)->findOneBy(array('extention' => $originalFileInfo->getExtension()));
+        if ($fileFormat instanceof FileFormat) {
+          $documentFileFormat = new DocumentFileFormat();
+          $documentFileFormat->setDocument($document);
+          $documentFileFormat->setFileFormat($fileFormat);
+          $documentFileFormat->setContentUrl("/" . $filepath);
+          $em->persist($documentFileFormat);
+          $em->persist($document);
+          $em->flush();
 
-      $fileFormat = $em->getRepository(FileFormat::class)->findOneBy(array('extention' => $originalFileInfo->getExtension()));
-      if ($fileFormat instanceof FileFormat) {
-        $documentFileFormat = new DocumentFileFormat();
-        $documentFileFormat->setDocument($document);
-        $documentFileFormat->setFileFormat($fileFormat);
-        $documentFileFormat->setContentUrl("/" . $filepath);
-        $em->persist($documentFileFormat);
-        $em->persist($document);
-        $em->flush();
-
-
-        return $document;
+          return $document;
+        } else {
+          throw new BadRequestHttpException('Impossible de copier le document');
+        }
       } else {
           throw new BadRequestHttpException('Format non géré : ' . $originalFileInfo->getExtension());
       }

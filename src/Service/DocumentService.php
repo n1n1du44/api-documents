@@ -2,6 +2,8 @@
 namespace App\Service;
 
 use App\Entity\Document;
+use App\Entity\DocumentFileFormat;
+use App\Entity\FileFormat;
 use SplFileInfo;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -15,12 +17,9 @@ class DocumentService
     $this->filesystem = $filesystem;
   }
 
-  public function move(Document $document, $filepath) {
-    $originalFilename = "media\\" . $document->getFilePath();
-    $originalFileInfo = new SplFileInfo($originalFilename);
+  public function convert(DocumentFileFormat $documentFileFormat, FileFormat $newFormat) {
 
-    $this->filesystem->copy($originalFilename, $filepath);
-    $document->setFilePath($filepath);
+    
 
   }
 }
