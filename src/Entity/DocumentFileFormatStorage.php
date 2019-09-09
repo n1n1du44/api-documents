@@ -12,14 +12,13 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
-use Hoa\File\File;
 
 /**
- * @ORM\Table(name="document_file_format")
+ * @ORM\Table(name="document_file_format_storage")
  * @ORM\Entity
  * @ApiResource
  */
-class DocumentFileFormat
+class DocumentFileFormatStorage
 {
     /**
      * @ORM\Column(name="id", type="integer")
@@ -31,7 +30,7 @@ class DocumentFileFormat
   /**
    * @var Document
    *
-   * @ManyToOne(targetEntity="Document")
+   * @ManyToOne(targetEntity="Document", inversedBy="documentsFileFormatsStorages")
    * @JoinColumn(name="document_id", referencedColumnName="id")
    */
   private $document;
@@ -45,11 +44,29 @@ class DocumentFileFormat
   private $fileFormat;
 
   /**
+   * @var Storage
+   *
+   * @ManyToOne(targetEntity="Storage")
+   * @JoinColumn(name="storage_id", referencedColumnName="id")
+   */
+  private $storage;
+
+  /**
    * @var string
    *
    * @ORM\Column(type="string")
    */
   public $contentUrl;
+
+
+
+  public function __construct(Document $document, FileFormat $fileFormat, Storage $storage, $contentUrl)
+  {
+    $this->document = $document;
+    $this->fileFormat = $fileFormat;
+    $this->storage = $storage;
+    $this->contentUrl = $contentUrl;
+  }
 
   /**
    * @return mixed
@@ -115,5 +132,20 @@ class DocumentFileFormat
     $this->contentUrl = $contentUrl;
   }
 
+  /**
+   * @return Storage
+   */
+  public function getStorage(): Storage
+  {
+    return $this->storage;
+  }
+
+  /**
+   * @param Storage $storage
+   */
+  public function setStorage(Storage $storage): void
+  {
+    $this->storage = $storage;
+  }
 
 }

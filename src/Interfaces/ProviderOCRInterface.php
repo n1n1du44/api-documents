@@ -15,4 +15,5 @@ interface ProviderOCRInterface
   public function getVersion() : string;
   public function isConfigurationValid() : bool;
   public function run($filepath) : string;
+  public function getInputFormat() : string;
 }

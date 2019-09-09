@@ -239,6 +239,9 @@
     "ocramius/proxy-manager": {
         "version": "2.2.2"
     },
+    "orbitale/imagemagick-php": {
+        "version": "v3.0.8"
+    },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
     },
@@ -263,11 +266,17 @@
     "psr/simple-cache": {
         "version": "1.0.1"
     },
+    "spatie/pdf-to-text": {
+        "version": "1.2.0"
+    },
     "symfony/asset": {
         "version": "v4.2.5"
     },
     "symfony/cache": {
         "version": "v4.2.4"
+    },
+    "symfony/cache-contracts": {
+        "version": "v1.1.1"
     },
     "symfony/config": {
         "version": "v4.2.4"
@@ -302,6 +311,9 @@
     },
     "symfony/event-dispatcher": {
         "version": "v4.2.4"
+    },
+    "symfony/event-dispatcher-contracts": {
+        "version": "v1.1.1"
     },
     "symfony/expression-language": {
         "version": "v4.2.5"
@@ -358,6 +370,9 @@
     "symfony/intl": {
         "version": "v4.2.5"
     },
+    "symfony/mime": {
+        "version": "v4.3.1"
+    },
     "symfony/options-resolver": {
         "version": "v4.2.5"
     },
@@ -367,8 +382,20 @@
     "symfony/polyfill-intl-icu": {
         "version": "v1.11.0"
     },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.11.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-php72": {
+        "version": "v1.11.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.11.0"
+    },
+    "symfony/process": {
+        "version": "v4.3.3"
     },
     "symfony/property-access": {
         "version": "v4.2.5"
@@ -418,11 +445,17 @@
     "symfony/serializer": {
         "version": "v4.2.5"
     },
+    "symfony/service-contracts": {
+        "version": "v1.1.2"
+    },
     "symfony/stopwatch": {
         "version": "v4.2.5"
     },
     "symfony/templating": {
         "version": "v4.2.5"
+    },
+    "symfony/translation-contracts": {
+        "version": "v1.1.2"
     },
     "symfony/twig-bridge": {
         "version": "v4.2.5"

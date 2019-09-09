@@ -11,6 +11,7 @@ namespace App\Controller;
 
 use App\Interfaces\ProviderOCRInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DefaultController extends AbstractController
@@ -18,7 +19,7 @@ class DefaultController extends AbstractController
   /**
    * @Route("/", name="api_validate_configuration")
    * @param ProviderOCRInterface $providerOCR
-   * @return \Symfony\Component\HttpFoundation\Response
+   * @return Response
    */
   public function validateConfiguration(ProviderOCRInterface $providerOCR) {
     return $this->render('default/validate_configuration.html.twig', array(
@@ -26,17 +27,5 @@ class DefaultController extends AbstractController
       'provider_ocr_name' => $providerOCR->getName(),
       'provider_ocr_version' => $providerOCR->getVersion()
     ));
-  }
-
-  /**
-   * @Route("/test", name="api_test_tesseract")
-   * @param ProviderOCRInterface $providerOCR
-   * @param $projectDir
-   * @return void
-   */
-  public function testTesseractAction(ProviderOCRInterface $providerOCR, $projectDir) {
-    $filepath = $projectDir . "/public/database/test.tiff";
-    var_dump($providerOCR->run($filepath));
-    die;
   }
 }

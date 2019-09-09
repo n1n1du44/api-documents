@@ -27,6 +27,11 @@ class Storage
      */
     private $id;
 
+  /**
+   * @ORM\Column(name="code", type="string", length=255)
+   */
+  private $code;
+
     /**
      * @ORM\Column(name="label", type="string", length=255)
      */
@@ -38,15 +43,9 @@ class Storage
      */
     private $users;
 
-    /**
-     * Many Storages have Many Users.
-     * @ManyToMany(targetEntity="Document", mappedBy="storages")
-     */
-    private $documents;
-
-    public function __construct() {
+    public function __construct()
+    {
       $this->users = new ArrayCollection();
-      $this->documents = new ArrayCollection();
     }
 
     /**
@@ -64,6 +63,38 @@ class Storage
     {
       $this->id = $id;
     }
+
+  /**
+   * @return mixed
+   */
+  public function getCode()
+  {
+    return $this->code;
+  }
+
+  /**
+   * @param mixed $code
+   */
+  public function setCode($code): void
+  {
+    $this->code = $code;
+  }
+
+  /**
+   * @return mixed
+   */
+  public function getDocuments()
+  {
+    return $this->documents;
+  }
+
+  /**
+   * @param mixed $documents
+   */
+  public function setDocuments($documents): void
+  {
+    $this->documents = $documents;
+  }
 
     /**
      * @return mixed

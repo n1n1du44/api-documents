@@ -45,10 +45,11 @@ class TesseractOCRService implements ProviderOCRInterface
         die;
       }
 
-
       // Create an instanceof tesseract with the filepath as first parameter
       $tesseractInstance = new TesseractOCR($filepath);
-      $tesseractInstance->executable($this->path);
+      $tesseractInstance->executable($this->path)
+      ->lang('fra');
+//      $tesseractInstance->()
       // Execute tesseract to recognize text
       $content = $tesseractInstance->run();
       return $content;
@@ -57,5 +58,10 @@ class TesseractOCRService implements ProviderOCRInterface
   public function isConfigurationValid(): bool
   {
     return true;
+  }
+
+  public function getInputFormat(): string
+  {
+    return 'tiff';
   }
 }

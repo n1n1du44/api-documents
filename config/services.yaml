@@ -28,11 +28,19 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    tesseract_ocr:
-        class: App\Service\TesseractOCRService
+    App\Service\TesseractOCRService:
         arguments:
-            $path: 'C:/Program Files (x86)/Tesseract-OCR/tesseract.exe'
-        public: true
+            $path: '%env(TESSERACT_PATH)%'
+
+    tesseract_ocr:
+        alias : App\Service\TesseractOCRService
+
+    App\Service\PdfToTextService:
+        arguments:
+            $path: '%env(PDFTOTEXT_PATH)%'
+
+    pdftotext:
+        alias : App\Service\PdfToTextService
 
     # on fait un alias pour l'interface de ProviderOCR
-    App\Interfaces\ProviderOCRInterface: '@tesseract_ocr'
+    App\Interfaces\ProviderOCRInterface: '@pdftotext'

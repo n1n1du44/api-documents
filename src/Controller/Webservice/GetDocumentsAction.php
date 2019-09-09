@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Webservice;
 
 use App\Entity\Document;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Exception;
-use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 
-final class GetDocumentAction
+final class GetDocumentsAction
 {
   private $managerRegistry;
   private $tokenStorage;
@@ -21,23 +19,17 @@ final class GetDocumentAction
   }
 
   /**
-   * @param $id
    * @return Document
-   * @throws Exception
    */
-  public function __invoke($id)
+  public function __invoke()
   {
     $token = $this->tokenStorage->getToken();
     $user = $token->getUser();
 
     // on récupère tous les documents de l'utilisateurs
     $em = $this->managerRegistry->getManager();
-    $document = $em->getRepository(Document::class)->findOneBy(array('user' => $user, 'id' => $id));
-    if ($document instanceof Document) {
-      return $document;
-    } else {
-      throw new NotAcceptableHttpException(sprintf("Vous n'êtes pas le propriétaire de ce document"));
-    }
+    $documents = $em->getRepository(Document::class)->findBy(array('user' => $user));
 
+    return $documents;
   }
 }

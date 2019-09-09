@@ -31,9 +31,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     },
  *     collectionOperations={
  *         "post"={
- *             "controller"=App\Controller\CreateDocumentAction::class,
+ *             "controller"=App\Controller\Webservice\CreateDocumentAction::class,
  *             "defaults"={
- *                 "_api_receive"=false,
+ *                 "_api_respond"=true,
  *             },
  *             "validation_groups"={"Default", "document_create"},
  *             "swagger_context"={
@@ -51,13 +51,45 @@ use Symfony\Component\Validator\Constraints as Assert;
  *             },
  *         },
  *         "get"={
- *             "controller"=App\Controller\GetDocumentsAction::class,
+ *             "controller"=App\Controller\Webservice\GetDocumentsAction::class,
  *          },
+ *          "post_local"={
+ *              "method"="POST",
+ *              "path"="/document/create-local-document",
+ *              "controller"=App\Controller\Webservice\CreateLocalDocumentAction::class,
+ *             "defaults"={
+ *                 "_api_receive"=false,
+ *             },
+ *              "swagger_context"={
+ *                 "consumes"={
+ *                     "application/json",
+ *                 },
+ *                "parameters"={
+ *                  {
+ *                    "name" = "data",
+ *                    "in" = "body",
+ *                    "required" = "true",
+ *                    "schema" = {
+ *                      "type" = "object",
+ *                      "properties" = {
+ *                        "localPath"={"type"="string"},
+ *                        "format"={"type"="string"}
+ *                      }
+ *                    },
+ *                  },
+ *                }
+ *              }
+ *          }
  *     },
  *     itemOperations={
  *         "get"={
- *            "controller"=App\Controller\GetDocumentAction::class,
+ *            "controller"=App\Controller\Webservice\GetDocumentAction::class,
  *          },
+       *   "get_ocr"={
+       *         "method"="GET",
+       *         "path"="/documents/{id}/ocr",
+       *         "controller"=App\Controller\Webservice\GetOcrDocumentAction::class,
+       *     }
  *     },
  * )
  * @Vich\Uploadable
@@ -104,22 +136,15 @@ class Document
      */
     private $user;
 
-    /**
-     * One Document has many DocumentStorage. This is the inverse side.
-     * @OneToMany(targetEntity="DocumentStorage", mappedBy="document")
-     */
-    private $documentsStorages;
-
   /**
    * One Document has many DocumentFileFormat. This is the inverse side.
-   * @OneToMany(targetEntity="DocumentStorage", mappedBy="document")
+   * @OneToMany(targetEntity="DocumentFileFormatStorage", mappedBy="document")
    * @ApiProperty()
    */
-  private $documentsFileFormats;
+  private $documentsFileFormatsStorages;
 
     public function __construct() {
-      $this->documentsStorages = new ArrayCollection();
-      $this->documentsFileFormats = new ArrayCollection();
+      $this->documentsFileFormatsStorages = new ArrayCollection();
     }
 
     /**
@@ -205,37 +230,31 @@ class Document
   /**
    * @return mixed
    */
-  public function getDocumentsStorages()
+  public function getDocumentsFileFormatsStorages()
   {
-    return $this->documentsStorages;
+    return $this->documentsFileFormatsStorages;
   }
 
   /**
-   * @param mixed $documentsStorages
+   * @param mixed $documentsFileFormatsStorages
    */
-  public function setDocumentsStorages($documentsStorages): void
+  public function setDocumentsFileFormatsStorages($documentsFileFormatsStorages): void
   {
-    $this->documentsStorages = $documentsStorages;
+    $this->documentsFileFormatsStorages = $documentsFileFormatsStorages;
   }
 
-  /**
-   * @return mixed
-   */
-  public function getDocumentsFileFormats()
+  public function getDocumentFileFormatStorage(Storage $localStorage, FileFormat $fileFormat)
   {
-    return $this->documentsFileFormats;
+    foreach ($this->documentsFileFormatsStorages as $documentFileFormatStorage) {
+      if ($documentFileFormatStorage instanceof DocumentFileFormatStorage) {
+        if (($documentFileFormatStorage->getStorage()->getCode() == $localStorage->getCode()) &&
+          ($documentFileFormatStorage->getFileFormat()->getExtention() == $fileFormat->getExtention())) {
+          return $documentFileFormatStorage;
+        }
+      }
+    }
+    return null;
   }
-
-  /**
-   * @param mixed $documentsFileFormats
-   */
-  public function setDocumentsFileFormats($documentsFileFormats): void
-  {
-    $this->documentsFileFormats = $documentsFileFormats;
-  }
-
-
-
 
 
 }
