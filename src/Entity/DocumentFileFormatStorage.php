@@ -58,14 +58,20 @@ class DocumentFileFormatStorage
    */
   public $contentUrl;
 
+  /**
+   * @ORM\Column(name="relative_path", type="boolean")
+   */
+  private $relativePath;
 
 
-  public function __construct(Document $document, FileFormat $fileFormat, Storage $storage, $contentUrl)
+
+  public function __construct(Document $document, FileFormat $fileFormat, Storage $storage, $contentUrl, $relativePath = true)
   {
     $this->document = $document;
     $this->fileFormat = $fileFormat;
     $this->storage = $storage;
     $this->contentUrl = $contentUrl;
+    $this->relativePath = $relativePath;
   }
 
   /**
@@ -147,5 +153,14 @@ class DocumentFileFormatStorage
   {
     $this->storage = $storage;
   }
+
+  /**
+   * @return bool
+   */
+  public function isRelativePath(): bool
+  {
+    return $this->relativePath;
+  }
+
 
 }

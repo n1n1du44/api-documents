@@ -18,15 +18,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DocumentController extends AbstractController
 {
   /**
    * @Route("/add-local-document", name="api_document_add_local_document")
    * @param Request $request
+   * @param UserPasswordEncoderInterface $encoder
    * @return Response
    */
-  public function addLocalDocument(Request $request) {
+  public function addLocalDocument(Request $request, UserPasswordEncoderInterface $encoder) {
     $em = $this->getDoctrine()->getManager();
     $params = $request->request->all();
 
@@ -38,7 +40,7 @@ class DocumentController extends AbstractController
     $user = $em->getRepository(User::class)->findOneBy(['username' => $login]);
     $localStorage = $em->getRepository(Storage::class)->findOneBy(['code' => 'local']);
     if ($user instanceof User && $localStorage instanceof Storage) {
-      if ($user->getPassword() == $password) {
+      if ($encoder->isPasswordValid($user, $password)) {
         $fileFormat = $em->getRepository(FileFormat::class)->findOneBy(['extention' => $format]);
         if ($fileFormat instanceof FileFormat) {
           $document = new Document();

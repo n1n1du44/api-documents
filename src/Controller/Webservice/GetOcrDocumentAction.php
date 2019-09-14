@@ -44,7 +44,7 @@ final class GetOcrDocumentAction
 
   /**
    * @param $id
-   * @return void
+   * @return string
    */
   public function __invoke($id)
   {
@@ -58,11 +58,14 @@ final class GetOcrDocumentAction
     if ($document instanceof Document) {
       $documentFormat = $this->documentService->getDocumentFileFormatStorageForOcr($document, $this->providerOCR->getInputFormat());
       if ($documentFormat instanceof DocumentFileFormatStorage) {
-        // on peut lancer la récupération du texte en OCR
-        $filePath = $this->projectDir . "/public" . $documentFormat->getContentUrl();
-        $res = $this->providerOCR->run($filePath);
-        var_dump($res);
-        die;
+        if ($documentFormat->isRelativePath()) {
+          // on peut lancer la récupération du texte en OCR
+          $filePath = $this->projectDir . "/public" . $documentFormat->getContentUrl();
+        } else {
+          $filePath = $documentFormat->getContentUrl();
+        }
+
+        return $this->providerOCR->run($filePath);
       } else {
         throw new BadRequestHttpException(sprintf("Impossible de récuprer le document au format TIFF en local."));
       }

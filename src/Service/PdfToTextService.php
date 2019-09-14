@@ -49,7 +49,7 @@ class PdfToTextService implements ProviderOCRInterface
         ->setPdf($filepath)
         //      ->setOptions(['layout', 'r 96'])
         ->text();
-      return $text;
+      return utf8_encode($text);
     } catch (PdfNotFound $e) {
       return "";
     }
