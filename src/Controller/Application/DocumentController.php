@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class DocumentController extends AbstractController
 {
   /**
-   * @Route("/add-local-document", name="api_document_add_local_document")
+   * @Route("/api/add-local-document", name="api_document_add_local_document")
    * @param Request $request
    * @param UserPasswordEncoderInterface $encoder
    * @return Response

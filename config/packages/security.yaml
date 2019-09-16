@@ -16,7 +16,7 @@ security:
             anonymous: true
             provider: app_user_provider
             json_login:
-                check_path: /authentication_token
+                check_path: /api/authentication_token
                 username_path: username
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
