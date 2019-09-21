@@ -6,7 +6,7 @@
  * Time: 17:18
  */
 
-namespace AppBundle\Enums;
+namespace App\Enums;
 
 
 abstract class DocumentTypeRechercheChampType

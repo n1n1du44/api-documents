@@ -6,7 +6,7 @@
  * Time: 20:11
  */
 
-namespace AppBundle\Utils;
+namespace App\Utils;
 
 
 interface IStringTool

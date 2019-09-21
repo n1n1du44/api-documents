@@ -6,7 +6,7 @@
  * Time: 19:27
  */
 
-namespace AppBundle\Utils;
+namespace App\Utils;
 
 use AppBundle\Enums\DocumentTypeRechercheChampType;
 use AppBundle\Enums\DocumentTypeRechercheType;
