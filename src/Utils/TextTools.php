@@ -8,10 +8,10 @@
 
 namespace App\Utils;
 
-use AppBundle\Enums\DocumentTypeRechercheChampType;
-use AppBundle\Enums\DocumentTypeRechercheType;
-use AppBundle\Entity\DocumentTypeRecherche;
-use AppBundle\Entity\DocumentTypeRechercheChamp;
+use App\Entity\DocumentTypeRecherche;
+use App\Enums\DocumentTypeRechercheType;
+use App\Enums\DocumentTypeRechercheChampType;
+use App\Entity\DocumentTypeRechercheChamp;
 
 class TextTools
 {
@@ -239,7 +239,7 @@ class TextTools
   }
 
   private static function searchSeparatedFields($text, DocumentTypeRecherche $search, $mode='error') {
-    TextTools::writeMessage($mode, 'verbose', "On est dans la recherche de champs collés");
+    TextTools::writeMessage($mode, 'verbose', "On est dans la recherche de champs séparés");
 
     $searchFields = array();
     $continuerTraitement = true;

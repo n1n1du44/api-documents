@@ -1,8 +1,7 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
-use AppBundle\Utils\IStringTool;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,7 +47,7 @@ class DocumentTypeRechercheChamp
 
   /**
    * @var
-   * @ORM\ManyToOne(targetEntity="AppBundle\Entity\DocumentTypeRecherche", inversedBy="champs")
+   * @ORM\ManyToOne(targetEntity="DocumentTypeRecherche", inversedBy="champs")
    * @ORM\JoinColumn(name="recherche_id", referencedColumnName="id", nullable=false)
    */
   private $recherche;

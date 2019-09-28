@@ -3,9 +3,11 @@ namespace App\Service;
 
 use App\Entity\Document;
 use App\Entity\DocumentFileFormatStorage;
+use App\Entity\DocumentTypeRecherche;
 use App\Entity\FileFormat;
 use App\Entity\Storage;
-use AppBundle\Entity\DocumentType;
+use App\Entity\DocumentType;
+use App\Utils\TextTools;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -127,23 +129,7 @@ class DocumentService
     $recherches = $documentType->getRecherches();
 
     $informations = TextTools::getInformationsFromText($text, $recherches, 'verbose');
-    echo('<br>AFFICHAGE DES RESULTATS');
-    foreach ($recherches as $recherche) {
-      if ($recherche instanceof DocumentTypeRecherche) {
-        echo('<br><h2>Recherche : ' . $recherche->getLibelleRecherche() . '</h2>');
-        if (isset($informations[$recherche->getCode()])) {
-          foreach ($informations[$recherche->getCode()] as $keyRechercheDocument => $resultatRecherche) {
-            echo("<br>" . $keyRechercheDocument . " -> " . $resultatRecherche['result'] . "<br>");
-            // ON A NOTRE RESULTAT
-          }
-        }
-      }
-    }
-
-    echo('<br>LES RESULTATS SONT TERMINES');
-
-    var_dump($informations);
-    die;
+    return $informations;
   }
 
 

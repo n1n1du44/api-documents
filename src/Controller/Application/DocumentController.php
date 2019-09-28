@@ -10,9 +10,11 @@ namespace App\Controller\Application;
 
 use App\Entity\Document;
 use App\Entity\DocumentFileFormatStorage;
+use App\Entity\DocumentType;
 use App\Entity\FileFormat;
 use App\Entity\Storage;
 use App\Entity\User;
+use App\Service\DocumentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,5 +65,42 @@ class DocumentController extends AbstractController
     } else {
       return new JsonResponse(['error' => 'User introuvable'], 500);
     }
+  }
+
+
+  /**
+   * @Route("/api/get-informations-from-text", name="api_document_get_informations_from_text")
+   * @param Request $request
+   * @param UserPasswordEncoderInterface $encoder
+   * @param DocumentService $documentService
+   * @return Response
+   */
+  public function getInformationsFromText(Request $request, UserPasswordEncoderInterface $encoder, DocumentService $documentService) {
+    $em = $this->getDoctrine()->getManager();
+    $params = $request->request->all();
+
+    $text = $params['text'];
+    $codeTypeDocument = $params['code_type_document'];
+    $login = $params['login'];
+    $password = $params['password'];
+
+    $user = $em->getRepository(User::class)->findOneBy(['username' => $login]);
+    if ($user instanceof User) {
+      if ($encoder->isPasswordValid($user, $password)) {
+        $documentType = $em->getRepository(DocumentType::class)->findOneBy(['code' => $codeTypeDocument]);
+        if ($documentType instanceof DocumentType) {
+          $informations = $documentService->getInformationsFromDocumentType($documentType, $text);
+          return new JsonResponse($informations, 200);
+        } else {
+          return new JsonResponse(['error' => 'Document type non trouvé : ' . $codeTypeDocument], 500);
+        }
+      } else {
+        return new JsonResponse(['error' => 'Mauvais password. Attendu : ' . $user->getPassword()], 500);
+      }
+
+    } else {
+      return new JsonResponse(['error' => 'User introuvable'], 500);
+    }
+
   }
 }

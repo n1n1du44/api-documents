@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DocumenType
+ * DocumentType
  *
  * @ORM\Table(name="document_type")
  * @ORM\Entity
@@ -40,7 +40,7 @@ class DocumentType
 
 
   /**
-   * @ORM\OneToMany(targetEntity="AppBundle\Entity\DocumentTypeRecherche", mappedBy="documentType")
+   * @ORM\OneToMany(targetEntity="DocumentTypeRecherche", mappedBy="documentType")
    */
   private $recherches;
 
