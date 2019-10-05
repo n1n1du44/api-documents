@@ -152,7 +152,11 @@ class TextTools
   }
 
   public static function writeMessage($mode, $niveauMessage, $message) {
-    echo($message);
+    if ($mode == "error" && $niveauMessage == "error") {
+      echo($message);
+    } elseif ($mode == "verbose") {
+      echo($message);
+    }
   }
 
   /**
@@ -183,6 +187,7 @@ class TextTools
             TextTools::writeMessage($mode, 'verbose', "Texte exact trouvé : " . $result);
           } elseif ($champ->getType() == DocumentTypeRechercheChampType::TYPE_REGEX) {
             $type = DocumentTypeRechercheChampType::TYPE_REGEX;
+//            echo();
             preg_match($champ->getValue(), $text, $matches, PREG_OFFSET_CAPTURE);
 
 
@@ -192,6 +197,8 @@ class TextTools
               if ($ecartChamps == 0) {
                 $result = $resultTemp[0];
               } else {
+                $result = $resultTemp[0];
+                $result = $text;
                 $error = true;
                 $libelleError = "La regex a été trouvée, mais pas directement après la première chaine";
               }

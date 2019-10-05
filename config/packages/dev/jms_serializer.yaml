@@ -1,6 +1,6 @@
 jms_serializer:
     visitors:
-        json_serialization:
+        json:
             options:
                 - JSON_PRETTY_PRINT
                 - JSON_UNESCAPED_SLASHES

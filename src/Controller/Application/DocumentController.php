@@ -50,7 +50,7 @@ class DocumentController extends AbstractController
           $document->setUser($user);
           $em->persist($document);
 
-          $file_format_storage = new DocumentFileFormatStorage($document, $fileFormat, $localStorage, $localPath);
+          $file_format_storage = new DocumentFileFormatStorage($document, $fileFormat, $localStorage, $localPath, false);
           $em->persist($file_format_storage);
           $em->flush();
 
@@ -84,13 +84,19 @@ class DocumentController extends AbstractController
     $login = $params['login'];
     $password = $params['password'];
 
+    $text = str_replace (array("\r\n", "\n", "\r"), '', $text);
+
     $user = $em->getRepository(User::class)->findOneBy(['username' => $login]);
     if ($user instanceof User) {
       if ($encoder->isPasswordValid($user, $password)) {
         $documentType = $em->getRepository(DocumentType::class)->findOneBy(['code' => $codeTypeDocument]);
         if ($documentType instanceof DocumentType) {
-          $informations = $documentService->getInformationsFromDocumentType($documentType, $text);
-          return new JsonResponse($informations, 200);
+          if ($documentType->getUser() instanceof User && $documentType->getUser()->getId() == $user->getId()) {
+            $informations = $documentService->getInformationsFromDocumentType($documentType, $text);
+            return new JsonResponse($informations, 200);
+          } else {
+            return new JsonResponse(['error' => 'Ce document ne vous appartient pas.'], 500);
+          }
         } else {
           return new JsonResponse(['error' => 'Document type non trouvé : ' . $codeTypeDocument], 500);
         }

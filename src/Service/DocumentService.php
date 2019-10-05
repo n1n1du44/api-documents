@@ -128,7 +128,7 @@ class DocumentService
   public function getInformationsFromDocumentType(DocumentType $documentType, $text) {
     $recherches = $documentType->getRecherches();
 
-    $informations = TextTools::getInformationsFromText($text, $recherches, 'verbose');
+    $informations = TextTools::getInformationsFromText($text, $recherches, 'error');
     return $informations;
   }
 

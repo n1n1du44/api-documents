@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * DocumentType
@@ -37,6 +39,12 @@ class DocumentType
    * @ORM\Column(name="code", type="string", length=255)
    */
   private $code;
+
+  /**
+   * @ManyToOne(targetEntity="User")
+   * @JoinColumn(name="user_id", referencedColumnName="id")
+   */
+  private $user;
 
 
   /**
@@ -96,8 +104,21 @@ class DocumentType
     $this->code = $code;
   }
 
+  /**
+   * @return mixed
+   */
+  public function getUser()
+  {
+    return $this->user;
+  }
 
-
+  /**
+   * @param mixed $user
+   */
+  public function setUser($user): void
+  {
+    $this->user = $user;
+  }
 
   /**
    * @return mixed
