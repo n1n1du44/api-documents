@@ -20,7 +20,7 @@ class TextTools
   {
     $string_1_length = strlen($string_1);
     $string_2_length = strlen($string_2);
-    $return          = '';
+    $return = '';
 
     if ($string_1_length === 0 || $string_2_length === 0)
     {
@@ -59,7 +59,7 @@ class TextTools
             // Remember this as the largest
             $largest_size = $longest_common_subsequence[$i][$j];
             // Wipe any previous results
-            $return       = '';
+            $return = '';
             // And then fall through to remember this new value
           }
 
@@ -93,7 +93,6 @@ class TextTools
           array_push($matches, $arrayTempResult);
         }
       }
-
     }
 
     // on boucle sur les résultat pour afficher le pourcentage de 'trouvé'

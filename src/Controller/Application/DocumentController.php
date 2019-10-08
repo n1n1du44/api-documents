@@ -107,6 +107,5 @@ class DocumentController extends AbstractController
     } else {
       return new JsonResponse(['error' => 'User introuvable'], 500);
     }
-
   }
 }
