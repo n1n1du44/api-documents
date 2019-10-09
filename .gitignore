@@ -4,6 +4,7 @@
 /.env.local.php
 /.env.*.local
 /public/
+!public/.htaccess
 /.idea/
 /var/
 /vendor/
