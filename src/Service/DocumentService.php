@@ -132,5 +132,12 @@ class DocumentService
     return $informations;
   }
 
+  /**
+   * @param $string
+   * @return false|string|string[]|null
+   */
+  public function encodeToUtf8($string) {
+    return mb_convert_encoding($string, "UTF-8", mb_detect_encoding($string, "UTF-8, ISO-8859-1, ISO-8859-15", true));
+  }
 
 }

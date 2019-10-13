@@ -84,6 +84,7 @@ class DocumentController extends AbstractController
     $login = $params['login'];
     $password = $params['password'];
 
+    $text = $documentService->encodeToUtf8($text);
     $text = str_replace (array("\r\n", "\n", "\r"), '', $text);
 
     $user = $em->getRepository(User::class)->findOneBy(['username' => $login]);
