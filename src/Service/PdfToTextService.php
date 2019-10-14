@@ -47,8 +47,9 @@ class PdfToTextService implements ProviderOCRInterface
     try {
       $text = (new Pdf($this->path))
         ->setPdf($filepath)
-        //      ->setOptions(['layout', 'r 96'])
+        ->setOptions(['enc ISO-8859-9'])
         ->text();
+
       return utf8_encode($text);
     } catch (PdfNotFound $e) {
       return "";

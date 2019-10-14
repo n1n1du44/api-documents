@@ -197,7 +197,7 @@ class TextTools
                 $result = $resultTemp[0];
               } else {
                 $result = $resultTemp[0];
-                $result = $text;
+//                $result = $text;
                 $error = true;
                 $libelleError = "La regex a été trouvée, mais pas directement après la première chaine";
               }

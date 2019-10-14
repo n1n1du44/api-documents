@@ -65,7 +65,7 @@ final class GetOcrDocumentAction
           $filePath = $documentFormat->getContentUrl();
         }
 
-        return $this->documentService->encodeToUtf8($this->providerOCR->run($filePath));
+        return $this->providerOCR->run($filePath);
       } else {
         throw new BadRequestHttpException(sprintf("Impossible de récuprer le document au format TIFF en local."));
       }
